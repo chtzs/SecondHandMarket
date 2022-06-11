@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.hackchen.secondhandmarket.mapper.GoodsMapper">
+    <select id="searchGoods" resultType="top.hackchen.secondhandmarket.beans.Goods">
+        select *
+        from goods
+        where goods.name like #{content}
+        order by #{column} #{method}
+    </select>
+
+    <select id="searchGoodsInRange" resultType="top.hackchen.secondhandmarket.beans.Goods">
+        select *
+        from goods
+        where goods.name like #{content}
+        and goods.actual_price &lt;= #{max}
+        and goods.actual_price &gt;= #{min}
+        order by goods.actual_price #{order}
+    </select>
+</mapper>
