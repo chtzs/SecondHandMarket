@@ -49,7 +49,7 @@ public class EncryptUtils {
      *
      * @return 32位的随机字符串
      */
-    public static String createSalt() {
+    public static String createRandomUUID() {
         return UUID.randomUUID().toString().replace("-", "");
     }
 }

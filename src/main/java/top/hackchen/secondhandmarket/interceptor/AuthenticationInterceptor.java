@@ -11,18 +11,25 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import top.hackchen.secondhandmarket.annotation.AdministrationPrivilege;
 import top.hackchen.secondhandmarket.annotation.LoginVerify;
 import top.hackchen.secondhandmarket.annotation.UserPrivilege;
+import top.hackchen.secondhandmarket.beans.User;
+import top.hackchen.secondhandmarket.mapper.UserMapper;
+import top.hackchen.secondhandmarket.util.EncryptUtils;
 import top.hackchen.secondhandmarket.util.JsonResult;
+import top.hackchen.secondhandmarket.util.LoginUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
     private final ObjectMapper objectMapper;
+    private final UserMapper userMapper;
 
-    public AuthenticationInterceptor(ObjectMapper objectMapper) {
+    public AuthenticationInterceptor(ObjectMapper objectMapper, UserMapper userMapper) {
         this.objectMapper = objectMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -47,20 +54,30 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (needLogin) {
             //从 http 请求头中取出 token
             String token = request.getHeader("token");
-            //TODO: 判断Token是否在服务器上，如果不在就返回failed
-            int status = 0;
+            //验证token是否正确
+            if (!LoginUtils.verifyToken(token)) {
+                writeData(response, JsonResult.ACCESS_DENIED);
+                return false;
+            }
+            Integer id = Integer.valueOf(LoginUtils.getId(token));
+            User user = userMapper.selectById(id);
+            int status = user.getIdentity();
             if (adminOnly) {
                 //葡萄🍇用户访问或操作管理员才能操作的页面
                 if (status == 0) {
-                    response.getWriter().print(objectMapper.writeValueAsString(JsonResult.ACCESS_DENIED));
+                    writeData(response, JsonResult.ACCESS_DENIED);
                     return false;
                 }
             }
-            //TODO: 替换成真正的userId
-            request.setAttribute("userId", 10);
-            request.setAttribute("user", null);
+            //传递给controller
+            request.setAttribute("userId", id);
+            request.setAttribute("user", user);
             return true;
         }
         return true;
+    }
+
+    private <T> void writeData(HttpServletResponse response, JsonResult<T> result) throws IOException {
+        response.getWriter().print(objectMapper.writeValueAsString(result));
     }
 }

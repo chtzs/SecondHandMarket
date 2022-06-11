@@ -68,7 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                     user.setIdentity(0);
                     user.setPhoneNumber(phoneNumber);
                     user.setRegisterDate(new Date());
-                    user.setSalt(EncryptUtils.createSalt());
+                    user.setSalt(EncryptUtils.createRandomUUID());
                     user.setPassword(EncryptUtils.passwordEncrypt(password, user.getSalt()));
                     userMapper.insert(user);
                     return JsonResult.success("注册成功！");

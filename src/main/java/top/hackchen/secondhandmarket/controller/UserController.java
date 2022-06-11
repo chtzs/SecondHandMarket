@@ -1,5 +1,6 @@
 package top.hackchen.secondhandmarket.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import top.hackchen.secondhandmarket.beans.Goods;
 import top.hackchen.secondhandmarket.beans.User;
 import top.hackchen.secondhandmarket.service.UserService;
 import top.hackchen.secondhandmarket.util.JsonResult;
+import top.hackchen.secondhandmarket.util.LoginUtils;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Min;
@@ -30,8 +32,12 @@ public class UserController {
     @RequestMapping("/login")
     public JsonResult<Object> login(Long phoneNumber, String password) {
         if (userService.checkPasswordValid(phoneNumber, password)) {
-            //TODO: 生成Token
-            return JsonResult.success("登录成功");
+            Integer userId = userService.getOne(
+                    new QueryWrapper<User>()
+                            .eq("phone_number", phoneNumber)).getId();
+            return JsonResult.success("登录成功", new Object() {
+                public final String token = LoginUtils.createToken(userId);
+            });
         } else {
             return JsonResult.WRONG_PASSWORD_OR_USERNAME;
         }
@@ -40,7 +46,6 @@ public class UserController {
     @LoginVerify
     @RequestMapping("/logOut")
     public JsonResult<Object> logOut(@RequestAttribute Integer userId) {
-        //TODO: 删除token
         return null;
     }
 
@@ -102,7 +107,7 @@ public class UserController {
     @AdministrationPrivilege
     @RequestMapping("/list")
     public JsonResult<IPage<User>> list(@RequestParam(defaultValue = "0") Integer current,
-                                         @RequestParam(defaultValue = "10") Integer size) {
+                                        @RequestParam(defaultValue = "10") Integer size) {
         IPage<User> page = new Page<>(current, size);
         return JsonResult.success(userService.page(page));
     }
