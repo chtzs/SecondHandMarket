@@ -9,10 +9,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
 
-/**
- * 
- * @TableName bids
- */
 @TableName(value ="bids")
 @Data
 public class Bid implements Serializable {

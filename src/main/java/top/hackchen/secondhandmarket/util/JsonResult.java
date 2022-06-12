@@ -1,5 +1,6 @@
 package top.hackchen.secondhandmarket.util;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.Objects;
@@ -62,10 +63,12 @@ public class JsonResult<T> {
         return new JsonResult<>(code, msg, data);
     }
 
+    @JsonIgnore
     public boolean isFailed() {
         return !Objects.equals(code, DEFAULT_SUCCESS_CODE);
     }
 
+    @JsonIgnore
     public boolean isSuccessful() {
         return Objects.equals(code, DEFAULT_SUCCESS_CODE);
     }
