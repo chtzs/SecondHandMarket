@@ -7,10 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
 
-/**
- * 
- * @TableName reviews
- */
 @TableName(value ="reviews")
 @Data
 public class Review implements Serializable {
@@ -28,7 +24,7 @@ public class Review implements Serializable {
     /**
      * 管理员审核决定，0为通过，1为拒绝，2为审核中
      */
-    private Integer decision;
+    private Integer status;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

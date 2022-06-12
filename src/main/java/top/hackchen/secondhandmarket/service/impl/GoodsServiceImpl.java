@@ -3,8 +3,6 @@ package top.hackchen.secondhandmarket.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import top.hackchen.secondhandmarket.beans.Goods;
 import top.hackchen.secondhandmarket.beans.Review;
 import top.hackchen.secondhandmarket.beans.UserWant;
@@ -18,16 +16,9 @@ import org.springframework.stereotype.Service;
 import top.hackchen.secondhandmarket.service.UserService;
 import top.hackchen.secondhandmarket.util.JsonResult;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
-/**
- * @author wsbch
- * @description 针对表【goods】的数据库操作Service实现
- * @createDate 2022-06-06 14:33:29
- */
 @Service
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
         implements GoodsService {
@@ -67,7 +58,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
         if (userService.isExist(goods.getSellerId())) {
             goods.setPostDate(new Date());
             save(goods);
-            return JsonResult.success(goods.getId());
+            //在审核中加入此商品
+            Review review = new Review();
+            review.setGoodsId(goods.getId());
+            //未审核状态
+            review.setStatus(0);
+            reviewMapper.insert(review);
+            return JsonResult.success("发布成功", goods);
         }
         return JsonResult.USER_NOT_EXIST;
     }
