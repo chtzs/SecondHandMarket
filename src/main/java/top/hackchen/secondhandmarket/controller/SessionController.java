@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.hackchen.secondhandmarket.annotation.LoginVerify;
-import top.hackchen.secondhandmarket.beans.Goods;
 import top.hackchen.secondhandmarket.beans.Session;
 import top.hackchen.secondhandmarket.service.SessionService;
 import top.hackchen.secondhandmarket.util.JsonResult;

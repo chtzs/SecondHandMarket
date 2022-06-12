@@ -1,7 +1,6 @@
 package top.hackchen.secondhandmarket.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -9,11 +9,6 @@ import top.hackchen.secondhandmarket.util.JsonResult;
 
 import java.math.BigDecimal;
 
-/**
- * @author wsbch
- * @description 针对表【goods】的数据库操作Service
- * @createDate 2022-06-06 14:33:29
- */
 public interface GoodsService extends IService<Goods> {
     boolean goodsExist(Integer goodsId);
 

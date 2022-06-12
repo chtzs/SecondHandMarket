@@ -2,7 +2,6 @@ package top.hackchen.secondhandmarket.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +14,15 @@ import top.hackchen.secondhandmarket.service.GoodsService;
 import top.hackchen.secondhandmarket.util.JsonResult;
 
 import javax.validation.ConstraintViolationException;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/goods")
 public class GoodsController {
-    @Autowired
-    private GoodsService goodsService;
+    private final GoodsService goodsService;
+
+    public GoodsController(GoodsService goodsService) {
+        this.goodsService = goodsService;
+    }
 
     @RequestMapping("/search")
     public JsonResult<Object> searchGoods(IPage<Goods> page, String content,

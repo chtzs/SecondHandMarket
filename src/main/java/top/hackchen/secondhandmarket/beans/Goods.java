@@ -11,9 +11,6 @@ import java.util.Date;
 
 import lombok.Data;
 
-/**
- * @TableName goods
- */
 @TableName(value = "goods")
 @Data
 public class Goods implements Serializable {

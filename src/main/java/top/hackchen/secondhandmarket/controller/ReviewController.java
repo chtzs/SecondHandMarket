@@ -2,7 +2,6 @@ package top.hackchen.secondhandmarket.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +28,7 @@ public class ReviewController {
     @AdministrationPrivilege
     @RequestMapping("/list")
     public JsonResult<IPage<Review>> list(@RequestParam(defaultValue = "0") Integer current,
-                                          @RequestParam(defaultValue = "10") Integer size){
+                                          @RequestParam(defaultValue = "10") Integer size) {
         return JsonResult.success(reviewService.page(new Page<>(current, size)));
     }
 }
