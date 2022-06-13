@@ -15,6 +15,8 @@ public class JsonResult<T> {
     public static JsonResult<Object> USER_NOT_EXIST = new JsonResult<>(2003, "用户不存在");
     //3000: 商品相关
     public static JsonResult<Object> GOODS_NOT_EXIST = new JsonResult<>(3001, "商品不存在");
+    public static JsonResult<Object> WANT_NOT_EXIST = new JsonResult<>(3002, "您没有想要过这件商品");
+    public static JsonResult<Object> WANT_EXISTED = new JsonResult<>(3003, "商品已被想要过");
     //4000: 会话相关
     public static JsonResult<Object> SESSION_NOT_EXIST = new JsonResult<>(4001, "会话不存在");
     public static JsonResult<Object> SESSION_EXISTED = new JsonResult<>(4002, "会话已经存在");

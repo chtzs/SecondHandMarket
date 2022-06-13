@@ -29,13 +29,15 @@ class GoodsControllerTest {
         for (String location : locations) {
             for (String a : adj) {
                 for (int i = 0; i < names.length; i++) {
-//                    goodsService.postGoods(1,
-//                            location + a + names[i],
-//                            location + "的",
-//                            BigDecimal.valueOf(prices[i] + 1000),
-//                            BigDecimal.valueOf(prices[i]),
-//                            "甜美多汁！",
-//                            "全新！");
+                    Goods goods = new Goods();
+                    goods.setSellerId(1);
+                    goods.setName(location + a + names[i]);
+                    goods.setDescription(location + "的");
+                    goods.setFakePrice(BigDecimal.valueOf(prices[i] + 1000));
+                    goods.setActualPrice(BigDecimal.valueOf(prices[i]));
+                    goods.setFunctionality("甜美多汁！");
+                    goods.setGoodsCondition("全新！");
+                    goodsService.postGoods(goods);
                 }
             }
         }
