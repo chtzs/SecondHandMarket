@@ -15,11 +15,6 @@ import top.hackchen.secondhandmarket.util.JsonResult;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author wsbch
- * @description 针对表【users】的数据库操作Service实现
- * @createDate 2022-06-06 14:33:29
- */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         implements UserService {
@@ -33,7 +28,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public boolean checkPasswordValid(Long phoneNumber, String password) {
-        User user = getOne(new QueryWrapper<User>().eq("phone_number", phoneNumber));
+        List<User> users = userMapper.selectList(new QueryWrapper<User>().eq("phone_number", phoneNumber));
+        if (users.size() != 1) return false;
+        User user = users.get(0);
         String compare = user.getPassword();
         String salt = user.getSalt();
         return EncryptUtils.verifyPassword(password, salt, compare);
