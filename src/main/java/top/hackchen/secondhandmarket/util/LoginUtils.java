@@ -39,7 +39,7 @@ public class LoginUtils {
         try {
             verifier.verify(token);
             return true;
-        } catch (JWTVerificationException e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -47,7 +47,7 @@ public class LoginUtils {
     public static String getId(String token) {
         try {
             return JWT.decode(token).getAudience().get(0);
-        } catch (JWTDecodeException e) {
+        } catch (Exception e) {
             return "-1";
         }
     }
