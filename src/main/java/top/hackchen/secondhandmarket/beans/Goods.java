@@ -31,6 +31,11 @@ public class Goods implements Serializable {
     private String name;
 
     /**
+     * 商品图片
+     */
+    private String image;
+
+    /**
      * 商品描述
      */
     private String description;
