@@ -25,7 +25,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         //添加我们自己的身份验证拦截器，拦截一切请求（包括静态资源？）
         registry.addInterceptor(authenticationInterceptor)
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns("/alipay/**");
     }
 
     /**

@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Alipay ###
+src/main/resources/alipay/public-key.txt
+src/main/resources/alipay/private-key.txt
+
 ### STS ###
 .apt_generated
 .classpath
