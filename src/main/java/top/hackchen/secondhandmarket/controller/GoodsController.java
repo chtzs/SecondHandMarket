@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import top.hackchen.secondhandmarket.annotation.AdministrationPrivilege;
 import top.hackchen.secondhandmarket.annotation.LoginVerify;
+import top.hackchen.secondhandmarket.annotation.MultiRequestBody;
 import top.hackchen.secondhandmarket.beans.Goods;
 import top.hackchen.secondhandmarket.enums.GoodsSortBy;
 import top.hackchen.secondhandmarket.enums.SortOrder;
@@ -84,7 +85,7 @@ public class GoodsController {
 
     @AdministrationPrivilege
     @RequestMapping("/admin/update")
-    public JsonResult<Object> adminUpdate(Goods goods) {
+    public JsonResult<Object> adminUpdate(@MultiRequestBody Goods goods) {
         return JsonResult.success(goodsService.updateById(goods));
     }
 
