@@ -8,6 +8,10 @@ target/
 src/main/resources/alipay/public-key.txt
 src/main/resources/alipay/private-key.txt
 
+### Tencent ###
+src/main/resources/tencent/secret-id.txt
+src/main/resources/tencent/secret-key.txt
+
 ### STS ###
 .apt_generated
 .classpath

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -34,6 +35,7 @@ public class VerifyController {
         //生成验证码
         String capText = captchaProducer.createText();
         session.setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
+        System.out.println(capText);
         //向客户端写出
         BufferedImage bi = captchaProducer.createImage(capText);
         ServletOutputStream out = response.getOutputStream();
@@ -42,6 +44,16 @@ public class VerifyController {
             out.flush();
         } finally {
             out.close();
+        }
+    }
+
+    @RequestMapping("/verify")
+    public String verify(HttpServletRequest request, String captcha) {
+        HttpSession session = request.getSession();
+        if (Objects.equals(captcha, session.getAttribute(Constants.KAPTCHA_SESSION_KEY))) {
+            return "Yes";
+        } else {
+            return "No";
         }
     }
 }

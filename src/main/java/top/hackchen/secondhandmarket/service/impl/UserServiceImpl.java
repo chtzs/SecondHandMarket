@@ -51,6 +51,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    public boolean isExist(String phoneNumber) {
+        List<User> users =
+                userMapper.selectList(new QueryWrapper<User>().eq("phone_number", phoneNumber));
+        return users.size() == 1;
+    }
+
+    @Override
     public JsonResult<IPage<User>> searchAll(IPage<User> page, String content) {
         return JsonResult.success("查询成功", userMapper.searchAll(page, "%" + content + "%"));
     }

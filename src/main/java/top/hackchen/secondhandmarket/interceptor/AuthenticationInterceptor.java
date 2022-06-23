@@ -36,6 +36,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //设置编码
         request.setCharacterEncoding("utf-8");
+        response.setHeader("Access-Control-Allow-Credentials", "true"); //是否支持cookie跨域
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/plain");
         //如果不是映射到方法直接通过

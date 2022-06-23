@@ -21,6 +21,12 @@ public class JsonResult<T> {
     public static JsonResult<Object> SESSION_NOT_EXIST = new JsonResult<>(4001, "会话不存在");
     public static JsonResult<Object> SESSION_EXISTED = new JsonResult<>(4002, "会话已经存在");
     public static JsonResult<Object> INCOMPATIBLE_SENDER_RECEIVER = new JsonResult<>(4003, "发送方和接收方不一致");
+    //6000：验证相关
+    public static JsonResult<Object> SEND_MESSAGE_FAILED = new JsonResult<>(6001, "发送短信失败");
+    public static JsonResult<Object> WRONG_CAPTCHA = new JsonResult<>(6002, "验证码不匹配");
+    public static JsonResult<Object> WRONG_SMS_CAPTCHA = new JsonResult<>(6003, "短信验证码不匹配");
+    public static JsonResult<Object> WRONG_PHONE = new JsonResult<>(6004, "手机号不正确");
+
     public static final int BAD_REQUEST = 5001;
 
     public static final String DEFAULT_SUCCESS = "success";

@@ -12,6 +12,8 @@ public interface UserService extends IService<User> {
 
     boolean isExist(Integer userId);
 
+    boolean isExist(String phoneNumber);
+
     JsonResult<IPage<User>> searchAll(IPage<User> page, String content);
 
     JsonResult<Object> register(String nickname, Long phoneNumber, String password);

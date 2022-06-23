@@ -3,6 +3,7 @@ package top.hackchen.secondhandmarket.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
@@ -16,8 +17,11 @@ import top.hackchen.secondhandmarket.service.UserService;
 import top.hackchen.secondhandmarket.util.JsonResult;
 import top.hackchen.secondhandmarket.util.LoginUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Min;
+import java.util.Objects;
 
 @RequestMapping("/api/user")
 @RestController
@@ -50,8 +54,12 @@ public class UserController {
     }
 
     @RequestMapping("/register")
-    public JsonResult<Object> register(String nickname, Long phoneNumber, String password) {
-        //TODO: 手机验证
+    public JsonResult<Object> register(HttpServletRequest request, String nickname, Long phoneNumber, String password, String code) {
+        HttpSession session = request.getSession();
+        String savedCode = (String) session.getAttribute(SMSController.SMS_VERIFICATION_ATTRIBUTE);
+        if (!Objects.equals(savedCode, code)) {
+            return JsonResult.WRONG_SMS_CAPTCHA;
+        }
         return userService.register(nickname, phoneNumber, password);
     }
 

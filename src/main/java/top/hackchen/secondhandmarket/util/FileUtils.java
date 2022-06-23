@@ -22,6 +22,8 @@ public class FileUtils {
                 builder.append(line);
                 builder.append('\n');
             }
+            //该死！有个换行！我就说怎么老是验证失败！
+            builder.deleteCharAt(builder.length() - 1);
             return builder.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
