@@ -14,7 +14,7 @@ public interface UserService extends IService<User> {
 
     JsonResult<IPage<User>> searchAll(IPage<User> page, String content);
 
-    JsonResult<Object> register(Long phoneNumber, String password);
+    JsonResult<Object> register(String nickname, Long phoneNumber, String password);
 
     JsonResult<Object> fuckOff(int userId);
 }

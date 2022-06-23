@@ -57,12 +57,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.SERIALIZABLE)
-    public JsonResult<Object> register(Long phoneNumber, String password) {
+    public JsonResult<Object> register(String nickname, Long phoneNumber, String password) {
         if (notExist(phoneNumber)) {
             synchronized (lock) {
                 if (notExist(phoneNumber)) {
                     User user = new User();
                     user.setIdentity(0);
+                    user.setNickname(nickname);
                     user.setPhoneNumber(phoneNumber);
                     user.setRegisterDate(new Date());
                     user.setSalt(EncryptUtils.createRandomUUID());

@@ -64,7 +64,7 @@ class UserControllerTest {
             String nickname = "陈浩天_" + i;
             String password = EncryptUtils.md5(String.valueOf(i));
             Long phone = (long) (110 + i);
-            userService.register(phone, password);
+            userService.register("sb", phone, password);
             User user = userService.getOne(new QueryWrapper<User>().eq("phone_number", phone));
             user.setNickname(nickname);
             userService.updateById(user);

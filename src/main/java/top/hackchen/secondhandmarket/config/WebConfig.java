@@ -1,19 +1,32 @@
 package top.hackchen.secondhandmarket.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.hackchen.secondhandmarket.interceptor.AuthenticationInterceptor;
+import top.hackchen.secondhandmarket.interceptor.MultiRequestBodyArgumentResolver;
+
+import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     private final AuthenticationInterceptor authenticationInterceptor;
+    private final MultiRequestBodyArgumentResolver multiRequestBodyArgumentResolver;
 
-    public WebConfig(AuthenticationInterceptor authenticationInterceptor) {
+    public WebConfig(AuthenticationInterceptor authenticationInterceptor, MultiRequestBodyArgumentResolver multiRequestBodyArgumentResolver) {
         this.authenticationInterceptor = authenticationInterceptor;
+        this.multiRequestBodyArgumentResolver = multiRequestBodyArgumentResolver;
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        // 添加MultiRequestBody参数解析器
+        argumentResolvers.add(multiRequestBodyArgumentResolver);
     }
 
     /**

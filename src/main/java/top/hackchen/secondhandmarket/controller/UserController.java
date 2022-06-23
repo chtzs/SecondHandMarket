@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.hackchen.secondhandmarket.annotation.AdministrationPrivilege;
 import top.hackchen.secondhandmarket.annotation.LoginVerify;
+import top.hackchen.secondhandmarket.annotation.MultiRequestBody;
 import top.hackchen.secondhandmarket.annotation.UserPrivilege;
 import top.hackchen.secondhandmarket.beans.User;
 import top.hackchen.secondhandmarket.service.UserService;
@@ -49,9 +50,9 @@ public class UserController {
     }
 
     @RequestMapping("/register")
-    public JsonResult<Object> register(Long phoneNumber, String password) {
+    public JsonResult<Object> register(String nickname, Long phoneNumber, String password) {
         //TODO: 手机验证
-        return userService.register(phoneNumber, password);
+        return userService.register(nickname, phoneNumber, password);
     }
 
     @UserPrivilege
@@ -76,7 +77,7 @@ public class UserController {
 
     @UserPrivilege
     @RequestMapping("/update")
-    public JsonResult<Object> update(@RequestAttribute Integer userId, @RequestParam User user) {
+    public JsonResult<Object> update(@RequestAttribute Integer userId, @RequestBody User user) {
         user.setId(userId);
         userService.updateById(user);
         return JsonResult.success("更新成功");
@@ -84,7 +85,7 @@ public class UserController {
 
     @AdministrationPrivilege
     @RequestMapping("/admin/update")
-    public JsonResult<Object> adminUpdate(User user) {
+    public JsonResult<Object> adminUpdate(@MultiRequestBody User user) {
         Assert.notNull(user, "参数不能为null");
         Assert.notNull(user.getId(), "用户id不能为null");
 
@@ -101,6 +102,15 @@ public class UserController {
                                               @RequestParam(defaultValue = "10") Integer size,
                                               String content) {
         return userService.searchAll(new Page<>(current, size), content);
+    }
+
+    @LoginVerify
+    @RequestMapping("/detail")
+    public JsonResult<Object> detail(@RequestAttribute Integer userId) {
+        if (userService.isExist(userId)) {
+            return JsonResult.success(userService.getById(userId));
+        }
+        return JsonResult.USER_NOT_EXIST;
     }
 
     @AdministrationPrivilege
