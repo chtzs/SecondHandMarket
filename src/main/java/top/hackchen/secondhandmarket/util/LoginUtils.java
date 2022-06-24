@@ -19,7 +19,7 @@ public class LoginUtils {
     private static final String password;
 
     static {
-        password = EncryptUtils.createRandomUUID();
+        password = RandomUtils.createRandomUUID();
     }
 
     public static String createToken(Serializable userId) {

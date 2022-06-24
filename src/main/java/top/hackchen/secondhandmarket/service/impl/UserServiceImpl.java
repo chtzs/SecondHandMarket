@@ -11,6 +11,7 @@ import top.hackchen.secondhandmarket.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 import top.hackchen.secondhandmarket.util.EncryptUtils;
 import top.hackchen.secondhandmarket.util.JsonResult;
+import top.hackchen.secondhandmarket.util.RandomUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -73,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                     user.setNickname(nickname);
                     user.setPhoneNumber(phoneNumber);
                     user.setRegisterDate(new Date());
-                    user.setSalt(EncryptUtils.createRandomUUID());
+                    user.setSalt(RandomUtils.createRandomUUID());
                     user.setPassword(EncryptUtils.passwordEncrypt(password, user.getSalt()));
                     userMapper.insert(user);
                     return JsonResult.success("注册成功！");

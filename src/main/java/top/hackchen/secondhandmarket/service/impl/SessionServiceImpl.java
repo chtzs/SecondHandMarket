@@ -13,11 +13,6 @@ import top.hackchen.secondhandmarket.util.JsonResult;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author wsbch
- * @description 针对表【sessions】的数据库操作Service实现
- * @createDate 2022-06-06 14:33:29
- */
 @Service
 public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
         implements SessionService {
@@ -39,9 +34,9 @@ public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
         Integer sellerId = goods.getSellerId();
         List<Session> sessions = sessionMapper.selectList(
                 new QueryWrapper<Session>()
-                        .eq("goodsId", goodsId)
-                        .eq("sellerId", sellerId)
-                        .eq("buyerId", buyerId));
+                        .eq("goods_id", goodsId)
+                        .eq("seller_id", sellerId)
+                        .eq("buyer_id", buyerId));
         if (sessions.size() != 1) {
             return JsonResult.SESSION_EXISTED;
         }

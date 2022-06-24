@@ -1,5 +1,6 @@
 package top.hackchen.secondhandmarket.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.http.HttpStatus;
@@ -47,10 +48,20 @@ public class GoodsController {
         return goodsService.showDetail(goodsId);
     }
 
-    @AdministrationPrivilege
+    @LoginVerify
     @RequestMapping("/list")
-    public JsonResult<IPage<Goods>> list(@RequestParam(defaultValue = "0") Integer current,
+    public JsonResult<IPage<Goods>> list(@RequestAttribute Integer userId,
+                                         @RequestParam(defaultValue = "0") Integer current,
                                          @RequestParam(defaultValue = "10") Integer size) {
+        IPage<Goods> page = new Page<>(current, size);
+        return JsonResult.success(goodsService.page(page,
+                new QueryWrapper<Goods>().eq("seller_id", userId)));
+    }
+
+    @AdministrationPrivilege
+    @RequestMapping("/admin/list")
+    public JsonResult<IPage<Goods>> adminList(@RequestParam(defaultValue = "0") Integer current,
+                                              @RequestParam(defaultValue = "10") Integer size) {
         IPage<Goods> page = new Page<>(current, size);
         return JsonResult.success(goodsService.page(page));
     }
@@ -77,7 +88,7 @@ public class GoodsController {
 
     @LoginVerify
     @RequestMapping("/update")
-    public JsonResult<Object> update(@RequestAttribute Integer userId, Goods goods) {
+    public JsonResult<Object> update(@RequestAttribute Integer userId, @MultiRequestBody Goods goods) {
         Assert.isTrue(goodsService.goodsBelongTo(userId, goods.getId()), "该商品不属于你");
         goods.setSellerId(userId);
         return JsonResult.success(goodsService.updateById(goods));

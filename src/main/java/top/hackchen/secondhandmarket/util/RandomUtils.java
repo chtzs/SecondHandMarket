@@ -2,6 +2,7 @@ package top.hackchen.secondhandmarket.util;
 
 import java.text.DecimalFormat;
 import java.util.Random;
+import java.util.UUID;
 
 public class RandomUtils {
 
@@ -20,4 +21,12 @@ public class RandomUtils {
         return sixDigits.format(random.nextInt(1000000));
     }
 
+    /**
+     * 返回一个32位的随机字符串
+     *
+     * @return 32位的随机字符串
+     */
+    public static String createRandomUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
 }

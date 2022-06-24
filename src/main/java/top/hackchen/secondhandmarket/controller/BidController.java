@@ -35,11 +35,11 @@ public class BidController {
     @RequestMapping("/list")
     public JsonResult<?> listPage(@RequestParam(defaultValue = "0") Integer current,
                                   @RequestParam(defaultValue = "10") Integer size,
-                                  @RequestAttribute("userId") Integer sellerId,
+                                  @RequestAttribute Integer userId,
                                   Integer goodsId,
                                   String column,
                                   String order) {
-        Assert.isTrue(goodsService.goodsBelongTo(sellerId, goodsId), "当前用户不是该商品的卖家");
+        Assert.isTrue(goodsService.goodsBelongTo(userId, goodsId), "当前用户不是该商品的卖家");
         Assert.isTrue("offer".equals(column)
                 || "date".equals(column), "未知的列：" + column);
         Assert.isTrue("asc".equals(order)

@@ -20,6 +20,8 @@ public class Order implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    private String orderNumber;
+
     /**
      * 商品id
      */
@@ -44,6 +46,10 @@ public class Order implements Serializable {
      * 商品状态，在运输中，已成功送达，已成功丢失等等
      */
     private Integer deliveryStatus;
+
+    private Integer tradeStatus;
+
+    private String alipayTradeNumber;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

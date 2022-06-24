@@ -42,14 +42,4 @@ public class EncryptUtils {
     public static boolean verifyPassword(String md5Password, String salt, String encryptedPassword) {
         return EncryptUtils.passwordEncrypt(md5Password, salt).equals(encryptedPassword);
     }
-
-
-    /**
-     * 返回一个32位的随机字符串
-     *
-     * @return 32位的随机字符串
-     */
-    public static String createRandomUUID() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
 }
